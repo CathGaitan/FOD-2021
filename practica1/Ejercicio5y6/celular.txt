@@ -1,0 +1,4 @@
+ 1  redminote7  barato  xiaomi 100.44 4 30
+ 2  10  muy caro  apple 999.00 5 6
+ 3  Xperia2  esta bueno  sony 45.00 2 5
+ 4 galaxy1 esta bueno samsung 43.50 4 0
