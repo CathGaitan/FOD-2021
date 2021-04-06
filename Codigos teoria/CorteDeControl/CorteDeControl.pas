@@ -43,6 +43,7 @@ begin
         while (prov=reg.provincia) do begin //mientras sea la misma provincia, totalizo sus ventas
             writeln('Ciudad: ',reg.ciudad);
             totalciu:=0;
+            ciu:=reg.ciudad;
             while (prov=reg.Provincia) and (ciu=reg.ciudad) do begin //mientras sea la misma prov y misma ciudad, totalizo
                 writeln('Sucursal: ',reg.Sucursal);
                 sucu:=reg.sucursal;
