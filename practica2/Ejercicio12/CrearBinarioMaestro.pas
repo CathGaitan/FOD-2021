@@ -38,7 +38,7 @@ var
 begin
     assign(archivoMaestro,'maestro');
     Rewrite(archivoMaestro);
-    writeln('Escribir los accesos ordenado por: año, mes, dia e idUsuario');
+    writeln('Escribir los accesos ordenado por: anio, mes, dia e idUsuario');
     LeerAcceso(i);
     while (i.fecha.anio <> 9999) do begin
         write(archivoMaestro,i);
