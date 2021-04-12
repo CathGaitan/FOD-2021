@@ -1,4 +1,6 @@
-program EjercicioEmpleados;
+program Empleados;
+const
+    valoralto=9999;
 type 
     registro = record
         num:integer;
@@ -204,8 +206,8 @@ begin
     while (not EOF(archivoEmpleado)) do begin
         read(archivoEmpleado,r);
         with r do begin
-            writeln(carga,' ',num,' ',edad,' ',DNI,' ',nombre);
-            writeln(carga,' ',apellido);
+            writeln(carga,' Numero: ',num,' Edad: ',edad,' DNI: ',DNI,' Nombre: ',nombre);
+            writeln(carga,' Apellido: ',apellido);
         end;
     end;
     writeln('Archivo exportado correctamente!');
@@ -244,6 +246,44 @@ end;
 
 {--------------------------------------------------------------------------}
 
+procedure Leer2(var archivo:archivo; var dato:registro);
+begin
+    if(not EOF(archivo)) then
+        read(archivo,dato)
+    else
+        dato.num:=valoralto;
+end;
+{--------------------------------------------------------------------------}
+
+procedure EliminarReg();
+var
+    ArchivoEmp:archivo;
+    reg,ultReg:registro;
+    numBorrar:integer;
+begin
+    assign(ArchivoEmp,'macielEmpleados');
+    reset(ArchivoEmp); //abro mi archivo viejo
+    seek(ArchivoEmp,filesize(ArchivoEmp)-1);
+    read(archivoEmp,ultReg); //ultReg=ultimo registro en el archivo
+    write('Numero de empleado que quiere eliminar: ');
+    readln(numBorrar);
+
+    seek(ArchivoEmp,0);//posiciono mi archivo en el principio
+    leer2(archivoEmp,reg);
+    while ((reg.num <> numBorrar) and (reg.num <> valoralto)) do
+        leer2(ArchivoEmp,reg);
+    if (reg.num <> valoralto) then begin
+        seek(ArchivoEmp,filepos(ArchivoEmp)-1);
+        write(ArchivoEmp,ultReg); //escribo en el reg a borrar el reg que estaba ultimo en el archivo
+        seek(ArchivoEmp,filesize(ArchivoEmp)-1); //posiciono para eliminar el ultimo reg
+        truncate(ArchivoEmp); //trunco el archivo para evitar reg duplicados
+    end
+    else
+        writeln('No se encontro ese codigo');
+    close(ArchivoEmp);
+end;
+{--------------------------------------------------------------------------}
+
 var
     numopcion:integer;
     bool:boolean;
@@ -257,7 +297,8 @@ begin
         writeln('OPCION 4: Modificar edad empleados.');
         writeln('OPCION 5: Exportar a archivo de texto.');
         writeln('OPCION 6: Exportar a text los empleados sin DNI(00)');
-        writeln('OPCION 7: Salir del programa.');
+        writeln('OPCION 7: Eliminar un registro del archivo');
+        writeln('OPCION 8: Salir del programa.');
         writeln('----------------------------------------');
         write('Usted quiere elegir la opcion numero: ');
         readln(numopcion);
@@ -269,7 +310,8 @@ begin
             4:ModificarEdad;
             5:ExportarATexto;
             6:ExportarDNI;
-            7:bool:=true;
+            7:EliminarReg;
+            8:bool:=true;
         end;
     end;
 end.

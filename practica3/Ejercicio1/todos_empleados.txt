@@ -1,0 +1,18 @@
+ Numero: 123 Edad: 44 DNI: 123 Nombre: jorge
+ Apellido: runco
+ Numero: 321 Edad: 21 DNI: 3 Nombre: agustin
+ Apellido: gil
+ Numero: 65 Edad: 44 DNI: 5673 Nombre: guada
+ Apellido: bin
+ Numero: 3 Edad: 27 DNI: 1 Nombre: cata
+ Apellido: Perez
+ Numero: 344 Edad: 14 DNI: 222 Nombre: jee
+ Apellido: mica
+ Numero: 1 Edad: 88 DNI: 111 Nombre: raton
+ Apellido: Perez
+ Numero: 123 Edad: 33 DNI: 0 Nombre: santi
+ Apellido: echeverria
+ Numero: 44 Edad: 27 DNI: 43500 Nombre: maciel
+ Apellido: salguero
+ Numero: 7 Edad: 22 DNI: 0 Nombre: nadir
+ Apellido: nasif
