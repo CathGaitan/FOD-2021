@@ -14,5 +14,3 @@
  Apellido: echeverria
  Numero: 44 Edad: 27 DNI: 43500 Nombre: maciel
  Apellido: salguero
- Numero: 7 Edad: 22 DNI: 0 Nombre: nadir
- Apellido: nasif
