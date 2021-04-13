@@ -12,7 +12,7 @@ type
     archivoEmp=file of empleado;
 
 {----------------------------------------------------------}
-procedure Leer (var archivo:archivoEmp; dato:empleado);
+procedure Leer (var archivo:archivoEmp;var dato:empleado);
 begin
     if(not EOF(archivo)) then
         read(archivo,dato)
@@ -61,13 +61,14 @@ begin
     writeln('ELIMINANDO REGISTROS CON DNI MENOR A 900');
     assign(archivo,'archivoDeEmpleados');
     reset(archivo);
-    while(not EOF(archivo)) do begin
-        leer(archivo,reg);
+    leer(archivo,reg);
+    while(reg.cod <>valoralto) do begin
         if (reg.DNI < 900) then begin
             reg.nombre:='***';
             seek(archivo,filepos(archivo)-1);
             write(archivo,reg);
         end;
+        leer(archivo,reg);
     end;
     close(archivo);
 end;
