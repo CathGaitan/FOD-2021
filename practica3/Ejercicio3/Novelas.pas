@@ -53,17 +53,86 @@ begin
     close(archivo);
 end;
 {----------------------------------------------------------}
+procedure DarDeAlta(var archivo:archivoNov);
+var
+    reg,regAux,n:novela;
+begin
+    seek(archivo,0);
+    leer(archivo,reg);// reg=registro Cabecera 
+    if(reg.cod = 0) then begin
+        writeln('No hay espacio para una almacenar una nueva novela');
+    end
+    else begin
+        LeerNovela(n); //n=NUEVA NOVELA
+        //Ej: si en reg Cabecera hay -5, leo la pos5 y lo copio en la pos0
+        seek(archivo,(reg.cod*-1));
+        read(archivo,regAux); //regAux=para copiarlo en posicion 0
+        seek(archivo,0);
+        write(archivo,regAux); //copio el archivo borrado en 0
+        //Ej: Grabo el nuevo registro en la pos 5
+        seek(archivo,(reg.cod*-1));
+        write(archivo,n);
+    end;
+end;
+{----------------------------------------------------------}
 
-procedure DarDeAlta(archivo:archivoNov);
+procedure ModificarDatos(var archivo:archivoNov);
+procedure CambiarNombre(var reg:novela);
+begin
+    write('Nombre nuevo: ');
+    readln(reg.nombre);
+end;
+procedure CambiarGenero(var reg:novela);
+begin
+    write('Genero nuevo: ');
+    readln(reg.genero);
+end;
 var
     reg:novela;
-    codnovela:integer;
+    corte:boolean;
+    codnov,opcion:integer;
 begin
-    write('Codigo de la novela que quiere dar de alta: ');
-    readln(codnovela);
-    
-end;
+    seek(archivo,1);
+    corte:=true;
+    write('Codigo de novela al que quiera modificarle los datos: ');
+    readln(codnov);
+    leer(archivo,reg);
+    while ((reg.cod<>valoralto) and (corte)) do begin
+        if (reg.cod = codnov) then begin
+            writeln('Que le va a modificar a la novela de codigo ',codnov,'?');
+            writeln('1. El genero');
+            writeln('2. El nombre');
+            write('elige el: ');
+            readln(opcion);
+            case opcion of
+                1:CambiarGenero(reg);
+                2:CambiarNombre(reg);
+            end;
+            seek(archivo,filepos(archivo)-1);
+            write(archivo,reg);
+            corte:=false;
+        end;
+        leer(archivo,reg);
+    end;
+end; 
+{----------------------------------------------------------}
 
+procedure EliminarUnaNovela(var archivo:archivoNov);
+var
+    reg,regAux:novela;
+    codborrar:integer;
+begin
+    write('Codigo de la novela que quiere eliminar: ');
+    readln(codborrar);
+    //---------------
+    seek(archivo,0);  
+    Leer(archivo,regAux);//regAux=registro Cabecera
+    seek(archivo,0);
+    reg.cod:=(codborrar*-1);//En regCabecera pongo el negativo del
+    write(archivo,reg); ////cod de novela que voy a eliminar
+    seek(archivo,(codborrar*-1));
+    write(archivo,regAux);
+end;
 {----------------------------------------------------------}
 procedure AbrirArchivo();
 var
@@ -92,6 +161,33 @@ begin
             4:cerrar:=false;
         end;
     end;
+    close(archivo);
+end;
+
+{----------------------------------------------------------}
+procedure ExportarTxt();
+var
+    texto:Text;
+    r:novela;
+    archivo:archivoNov;
+    nom,nom1:string[20];
+begin
+    write('Archivo que quiere pasar a txt: ');
+    readln(nom);
+    assign(archivo,nom);
+    reset(archivo); 
+    write('Nombre del txt: ');
+    readln(nom1);
+    assign(texto,nom1);
+    rewrite(texto); //creo mi archivo de texto
+    while(not EOF(archivo)) do begin
+        read(archivo,r);
+        with r do begin
+          writeln(texto,' cod: ',cod,' Nombre: ',nombre);
+          writeln(texto,' Genero: ',genero);
+        end;
+    end;
+    close(texto);
     close(archivo);
 end;
 

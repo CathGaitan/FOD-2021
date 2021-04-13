@@ -1,0 +1,10 @@
+ cod: 0 Nombre: 
+ Genero: 
+ cod: 1 Nombre: Romance en India
+ Genero: romance
+ cod: 2 Nombre: aventuras magicas
+ Genero: accion
+ cod: 3 Nombre: aladdin vs nadir
+ Genero: pelea
+ cod: 4 Nombre: el reecuentro
+ Genero: drama
