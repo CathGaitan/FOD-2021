@@ -32,15 +32,11 @@ begin
 end;
 {--------------------------------------------------------}
 
-procedure BajaLogica();
+procedure BajaLogica(var mae:maestro;var det:detalle);
 var
-    mae:maestro;
-    det:detalle;
     regM:prenda;
     regD:integer;
 begin
-    assign(mae,'maestro');
-    assign(det,'detalle');
     reset(mae);
     reset(det);
     Leer2(det,regD);
@@ -63,13 +59,10 @@ end;
 
 {--------------------------------------------------------}
 
-procedure BajaFisica();
+procedure BajaFisica(var mae,maeNuevo:maestro); //copio los registros no eliminados a un archivo nuevo
 var
-    mae,maeNuevo:maestro;
     regM:prenda;
 begin
-    assign(mae,'maestro');
-    assign(maeNuevo,'maeNuevo');
     reset(mae);
     rewrite(maeNuevo);
     Leer(mae,regM);
@@ -78,10 +71,10 @@ begin
             write(maeNuevo,regM);
         Leer(mae,regM);
     end;
-    rename(maeNuevo,'maestro');
-    writeln('HOLA');
-    close(maeNuevo);
     close(mae);
+    close(maeNuevo);
+    erase(mae);
+    rename(maeNuevo,'maestro');
 end;
 
 {--------------------------------------------------------}
@@ -116,8 +109,13 @@ end;
 var
     opcion:integer;
     cerrar:boolean;
+    mae,maeNuevo:maestro;
+    det:detalle;
 begin
     cerrar:=true;
+    assign(mae,'maestro');
+    assign(det,'detalle');
+    assign(maeNuevo,'maeNuevo');
     while (cerrar) do begin
         writeln('---MENU----');
         writeln('OPCION 1: Baja logica');
@@ -127,8 +125,8 @@ begin
         write('Usted va a elegir la opcion: ');
         readln(opcion);
         case opcion of 
-            1:BajaLogica();
-            2:BajaFisica();
+            1:BajaLogica(mae,det);
+            2:BajaFisica(mae,maeNuevo);
             3:ExportarTxt();
             4:cerrar:=false;
         end;
