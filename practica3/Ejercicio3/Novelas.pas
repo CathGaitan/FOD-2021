@@ -11,7 +11,7 @@ type
 
 {----------------------------------------------------------}
 
-procedure Leer (var archivo:archivoNov; dato:novela);
+procedure Leer (var archivo:archivoNov;var dato:novela);
 begin
     if(not EOF(archivo)) then
         read(archivo,dato)
@@ -57,22 +57,27 @@ procedure DarDeAlta(var archivo:archivoNov);
 var
     reg,regAux,n:novela;
 begin
-    seek(archivo,0);
+    reset(archivo);
     leer(archivo,reg);// reg=registro Cabecera 
     if(reg.cod = 0) then begin
-        writeln('No hay espacio para una almacenar una nueva novela');
+        LeerNovela(n);
+        seek(archivo,FileSize(archivo)); 
+        write(archivo,n);
+        writeln('Su nueva novela se ingreso atras de todo!');
+        //pongo al final
     end
     else begin
         LeerNovela(n); //n=NUEVA NOVELA
         //Ej: si en reg Cabecera hay -5, leo la pos5 y lo copio en la pos0
-        seek(archivo,(reg.cod*-1));
+        seek(archivo,(reg.cod*(-1)));
         read(archivo,regAux); //regAux=para copiarlo en posicion 0
         seek(archivo,0);
         write(archivo,regAux); //copio el archivo borrado en 0
         //Ej: Grabo el nuevo registro en la pos 5
-        seek(archivo,(reg.cod*-1));
+        seek(archivo,(reg.cod*(-1)));
         write(archivo,n);
     end;
+    close(archivo);
 end;
 {----------------------------------------------------------}
 
@@ -92,6 +97,7 @@ var
     corte:boolean;
     codnov,opcion:integer;
 begin
+    reset(archivo);
     seek(archivo,1);
     corte:=true;
     write('Codigo de novela al que quiera modificarle los datos: ');
@@ -114,6 +120,7 @@ begin
         end;
         leer(archivo,reg);
     end;
+    close(archivo);
 end; 
 {----------------------------------------------------------}
 
@@ -122,16 +129,26 @@ var
     reg,regAux:novela;
     codborrar:integer;
 begin
+    reset(archivo);
     write('Codigo de la novela que quiere eliminar: ');
     readln(codborrar);
-    //---------------
-    seek(archivo,0);  
+    //--------------- 
     Leer(archivo,regAux);//regAux=registro Cabecera
-    seek(archivo,0);
-    reg.cod:=(codborrar*-1);//En regCabecera pongo el negativo del
-    write(archivo,reg); ////cod de novela que voy a eliminar
-    seek(archivo,(codborrar*-1));
-    write(archivo,regAux);
+    while ((reg.cod <> valoralto) and (reg.cod <> codborrar)) do begin
+        Leer(archivo,reg);
+    end;
+    if(reg.cod = codborrar) then begin
+        reg.cod:=((filepos(archivo)-1));
+        seek(archivo,reg.cod);
+        write(archivo,regAux);
+        seek(archivo,0);
+        reg.cod:=reg.cod*-1;
+        write(archivo,reg);
+        writeln('Novela eliminada correctamente!');
+    end
+    else
+        writeln('Ese codigo no existe');
+    close(archivo);
 end;
 {----------------------------------------------------------}
 procedure AbrirArchivo();
@@ -145,7 +162,6 @@ begin
     write('Nombre del archivo a abrir: ');
     readln(nombre);
     assign(archivo,nombre);
-    reset(archivo);
     while(cerrar) do begin
         writeln('--Acciones para el archivo ',nombre,'--');
         writeln('OPCION 1: Dar de alta una novela');
@@ -161,7 +177,6 @@ begin
             4:cerrar:=false;
         end;
     end;
-    close(archivo);
 end;
 
 {----------------------------------------------------------}
