@@ -91,9 +91,24 @@ begin
 end;
 
 {----------------------------------------------------------}
-
+//String a integer con Val()
+//integer a String con Str()
 procedure ImprimirContenido(var archivo:ArchRevistas);
+var
+    tit:tTitulo;
+    titInt,codError:integer;
 begin
+    assign(archivo,'archivoRevista');
+    reset(archivo);
+    Leer(archivo,tit);
+    writeln('--Titulos no borrados--');
+    while(tit <> valoralto) do begin
+        Val(tit,titInt,codError);
+        if(codError<>0) then begin
+            writeln(tit);
+        end;
+        Leer(archivo,tit);
+    end;
 end;
 
 {----------------------------------------------------------}
