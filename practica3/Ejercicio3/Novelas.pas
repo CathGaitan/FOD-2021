@@ -135,15 +135,15 @@ begin
     //--------------- 
     Leer(archivo,regAux);//regAux=registro Cabecera
     while ((reg.cod <> valoralto) and (reg.cod <> codborrar)) do begin
-        Leer(archivo,reg);
+        Leer(archivo,reg); //leo hasta encontrar el reg a borrar
     end;
     if(reg.cod = codborrar) then begin
-        reg.cod:=((filepos(archivo)-1));
-        seek(archivo,reg.cod);
-        write(archivo,regAux);
-        seek(archivo,0);
+        reg.cod:=((filepos(archivo)-1)); //me guardo la pos del reg a borrar
+        seek(archivo,reg.cod); //me posiciono en el reg a borrar
+        write(archivo,regAux); //Escribo en mi reg a borrar lo que tenia en la cabecera
+        seek(archivo,0); //voy a mi cabecera
         reg.cod:=reg.cod*-1;
-        write(archivo,reg);
+        write(archivo,reg); //escribo en la cabecera el archivo que borre
         writeln('Novela eliminada correctamente!');
     end
     else
