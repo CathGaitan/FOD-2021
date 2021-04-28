@@ -46,37 +46,46 @@ begin
     end;
     close(archivo);
 end;
-
 {--------------------------------------------------------------}
 
+procedure BuscarUltReg(var archivo:archivoAves; var ultReg:ave; var ultpos:integer);
+begin
+    seek(archivo,ultpos); //1era vez=final del archivo(este borrado o no) - demas veces=nos vamos moviendo para atras 
+     read(archivo,ultReg);
+     while(ultReg.cod = -1) do begin //busco el ultimo registro NO borrado
+         seek(archivo,ultpos-1); 
+         ultpos:=filepos(archivo); //ultpos=ubicacion del ultimo rengistro borrado. Lo uso para reemplazar
+         read(archivo,ultReg);
+     end;
+ end;
+{--------------------------------------------------------------}
+//MAS EFICIENTE - HAGO UN SOLO TRUNCATE
 procedure BajaFisica();
 var
+    reg,ultReg:ave;
+    pos,ultpos:integer;
     archivo:archivoAves;
-    reg,regAux:ave;
-    cantBorrados,pos:integer;
 begin
-    cantBorrados:=0;
     assign(archivo,'archivoAves');
     reset(archivo);
-    Leer(archivo,reg);
-    while(reg.cod <> valoralto) do begin
-        if (reg.cod = -1) then begin
-            cantBorrados:=cantBorrados+1;
-            pos:=filepos(archivo)-1; //guardo pos de mi archivo con cod -1
-            seek(archivo,filesize(archivo)); //voy a final del archivo
-            read(archivo,regAux); // regAux= ultimo regAux
-            seek(archivo,pos);//en la pos de mi archivo con cod -1 
-            write(archivo,regAux);//pongo el ult reg
-        end;
+    Leer(archivo,reg); //leo un reg
+     ultpos:=filesize(archivo); //ultPos=tamanio de mi archivo
+     while ((reg.cod<>valoralto) and (filepos(archivo)<=ultpos)) do begin //mientras noEOF
+         pos:=filepos(archivo); //pos=donde estoy parada
+         if(reg.cod = -1) then begin
+             ultpos:=ultpos-1; //decremento mi pos
+             BuscarUltReg(archivo,ultReg,ultpos); //busco el ultimo registro NO borrado
+             seek(archivo,pos-1);
+             write(archivo,ultReg);
+         end;
         Leer(archivo,reg);
     end;
-    seek(archivo,filesize(archivo)-cantBorrados);
+    seek(archivo,ultpos+1);
     truncate(archivo);
     close(archivo);
 end;
 
 {--------------------------------------------------------------}
-
 procedure ExportarATexto();
 var
     carga:Text; //archivo text
