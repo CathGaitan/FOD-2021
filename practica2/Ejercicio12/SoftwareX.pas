@@ -69,6 +69,25 @@ begin
     writeln('Total tiempo de acceso en el ',anio,': ',totalanio);
 end;
 {-----------------------------------------------------------}
+
+procedure ImprimirMaestro(var mae:maestro);
+var
+    reg:infoAccesos;
+begin
+    seek(mae,0);
+    Leer(mae,reg);
+    while(reg.fecha.anio <> valoralto) do begin
+        writeln('Anio: ',reg.fecha.anio);
+        writeln('Mes: ',reg.fecha.mes);
+        writeln('Dia: ',reg.fecha.dia);
+        writeln('Cod usuario: ',reg.idUsuario);
+        writeln('Tiempo: ',reg.tiempoAcceso);
+        writeln('----------------------');
+        Leer(mae,reg);
+    end;
+end;
+{-----------------------------------------------------------}
+
 var
     mae:maestro;
     regM:infoAccesos;
@@ -90,5 +109,6 @@ begin
     end
     else
         writeln('Anio no encontrado');
+    ImprimirMaestro(mae);
     close(mae);
 end.
