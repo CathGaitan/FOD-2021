@@ -1,0 +1,6 @@
+-Merge
+-Corte de control
+-Lista invertida
+-Compactacion (bajas logicas y compactando)
+-Baja fisica
+-Maestro/Detalle

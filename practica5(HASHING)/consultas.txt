@@ -1,0 +1,6 @@
+1) Consultar sobre lecturas y escrituras. Ejemplo ejercicio11 LISTO
+2) Cuando se calcula la densidad de empaquetamiento? AL FINAL DE TODO 
+  En  dispersion con area de desborde para calcular la DE se tiene en cuenta el AREA DE DESBORDE? SI SE TIENE EN CUENTA EL AREA DE DESBORDE
+3) La marca de borrado en dispersion doble se pone siempre o sigue el mismo parametro que la saturacion progresiva? SIEMPRE
+4) Como se hacen las lecturas y escrituras en saturacion progresiva encadenada con area de desborde por separado? LISTO
+5) En hashing extensible, se insertan ordenado por orden de llegada o por orden alfabetico? ORDEN DE LLEGADA

@@ -1,0 +1,5 @@
+-Siempre que fusiono se libera un nodo? si, SIEMPRE.
+-ARBOL B+ ejercicio 18 --> resto 120. No se que hacer ahi, ni el porque. LISTO?
+-ARBOL B+ ejercicio 8 --> resto 500. No se que nodo se leeria ahi LISTO
+-Que pongo cuando recien estoy creando mi arbol? Ej: ejercicio 18 LISTO
+-Mirar FUSION nodos internos --> ejercicio 13 ARBOL B
